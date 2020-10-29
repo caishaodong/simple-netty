@@ -9,5 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>netty-server</artifactId>
+    <artifactId>netty-client</artifactId>
+
+
 </project>

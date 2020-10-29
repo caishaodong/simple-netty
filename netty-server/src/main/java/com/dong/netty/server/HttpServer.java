@@ -4,6 +4,7 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.logging.LogLevel;
@@ -15,10 +16,11 @@ import java.net.InetSocketAddress;
 /**
  * @Author caishaodong
  * @Date 2020-10-28 12:02
- * @Description
+ * @Description 服务端
  **/
 public class HttpServer {
-    private static int PORT = 8085;
+    public static String HOST = "127.0.0.1";
+    public static int PORT = 8085;
 
     public void start(int port) throws Exception {
         EventLoopGroup worker = new NioEventLoopGroup();
@@ -32,9 +34,9 @@ public class HttpServer {
                     .option(ChannelOption.SO_BACKLOG, 100)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new ChannelInitializer() {
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(Channel channel) throws Exception {
+                        protected void initChannel(SocketChannel channel) throws Exception {
                             channel.pipeline()
                                     .addLast("codec", new HttpServerCodec())
                                     .addLast("compressor", new HttpContentCompressor())
